@@ -11,6 +11,10 @@
 	<% flash.each do |name,msg| %>
 		<%= content_tag(:div, msg, class: "alert alert-#{name}") %>
 	<% end %> 
+
+	<%= link_to "home", root_path %> 
+	<%= link_to "about", about_path %> 
+
 	<%= yield %>
 
 </body>
