@@ -12,7 +12,7 @@ class AlertsController < ApplicationController
 
   # GET /alerts/new
   def new
-    @alert = Alert.new
+    @alert = current_user.alerts.build
   end
 
   # GET /alerts/1/edit
@@ -21,7 +21,7 @@ class AlertsController < ApplicationController
 
   # POST /alerts
   def create
-    @alert = Alert.new(alert_params)
+    @alert = current_user.alerts.build(alert_params)
 
     if @alert.save
       redirect_to @alert, notice: 'Alert was successfully created.'
