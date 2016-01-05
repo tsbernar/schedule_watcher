@@ -1,6 +1,10 @@
 class AlertsController < ApplicationController
   before_action :set_alert, only: [:show, :edit, :update, :destroy]
-
+  #take out this index for autheticate 
+  #so you cant see lsit of alerts unless you're logged in 
+  before_action :authenticate_user!, except: [:index]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
+  
   # GET /alerts
   def index
     @alerts = Alert.all
@@ -49,6 +53,11 @@ class AlertsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_alert
       @alert = Alert.find(params[:id])
+    end
+
+    def correct_user
+      @alert = current_user.alerts.find_by(id: params[:id])
+      redirect_to alerts_path if @alert.nil?
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

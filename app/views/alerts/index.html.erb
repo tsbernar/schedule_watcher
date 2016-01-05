@@ -18,9 +18,11 @@
         <td><%= alert.department %></td>
         <td><%= alert.course_number %></td>
         <td><%= alert.user.try(:email) %></td>
-        <td><%= link_to 'Show', alert %></td>
-        <td><%= link_to 'Edit', edit_alert_path(alert) %></td>
-        <td><%= link_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if alert.user = current_user %>
+          <td><%= link_to 'Show', alert %></td>
+          <td><%= link_to 'Edit', edit_alert_path(alert) %></td>
+          <td><%= link_to 'Delete', alert, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
