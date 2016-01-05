@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+	<strong>Department: </strong>
+	<%= @alert.department %>
+</p>
+<p>
+	<strong>Course Number: </strong>
+	<%= @alert.course_number %>
+</p>
+
+<%= link_to 'Edit', edit_alert_path(@alert) %> |
+<%= link_to 'Back', alerts_path %>
