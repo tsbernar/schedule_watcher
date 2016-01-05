@@ -1,6 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+	<strong> User: </strong>
+	<%= @alert.user.try(:email) %>
+<p>
 	<strong>Department: </strong>
 	<%= @alert.department %>
 </p>
