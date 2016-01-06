@@ -9,17 +9,38 @@ class Alert < ActiveRecord::Base
 		return depts
 	end
 
+# returns hash of alerts and number of seats open (as a string)
 	def self.check_seats
 		depts = get_departments
+		all_seats = Hash.new
+		open_seats = Hash.new
+
+		depts.each do |dept|
+			all_seats[dept] = fetch_dept_info(dept)
+		end
 
 		Alert.all.each do |alert|
-
+			department_seats = all_seats[alert.department]
+			if (department_seats[alert.course_number] != "Closed" && department_seats[alert.course_number] != nil)
+				open_seats[alert] = department_seats[alert.course_number] 
+			end
 		end
+		open_seats.each do |alert , seats|
+			AlertMailer.alert_email(alert).deliver_now
+			# alert.destroy
+		end
+
+		open_seats
 	end
 
 
+private 
 
-	def fetch_dept_info(dept)
+
+#need to refactor this so that it only logs in once per check, not once for every department
+#should seperate into 2 methods, one to log in and then another to fetch after that, 
+#call log in method first in self.check_seats before the depts.each loop 
+	def self.fetch_dept_info(dept)
 		id = "1545656529" 
 		pw = "2537djuT"
 		term = " Spring 2016"
