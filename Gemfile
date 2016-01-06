@@ -26,6 +26,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # for getting data from web register
 gem 'mechanize'
+
 #for authenticaiton
 gem 'devise' , '~> 3.4.0'
 #need for devise

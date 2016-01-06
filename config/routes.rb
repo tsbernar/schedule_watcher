@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :alerts
   devise_for :users
-  root "pages#home"
+  root "alerts#index"
   get "about" => "pages#about"
 
   # The priority is based upon order of creation: first created -> highest priority.
