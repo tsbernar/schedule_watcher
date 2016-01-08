@@ -41,8 +41,8 @@ private
 #should seperate into 2 methods, one to log in and then another to fetch after that, 
 #call log in method first in self.check_seats before the depts.each loop 
 	def self.fetch_dept_info(dept)
-		id = "1545656529" 
-		pw = "2537djuT"
+		id = ENV["ID"]
+		pw = ENV["PW"]
 		term = " Spring 2016"
 		# This uses "Classic version" of web reg, 
 		# should also try to implement on new version
