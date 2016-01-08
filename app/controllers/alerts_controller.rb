@@ -7,7 +7,7 @@ class AlertsController < ApplicationController
   
   # GET /alerts
   def index
-    @alerts = Alert.all
+    @alerts = current_user.alerts if user_signed_in?
   end
 
   # GET /alerts/new
