@@ -1,7 +1,5 @@
 # Schedule Watcher
 
-Schedule Watcher
-
 by Trevor Bernard
 trevor.s.bernard@gmail.com
 
