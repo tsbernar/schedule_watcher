@@ -18,8 +18,10 @@ class Alert < ActiveRecord::Base
 		open_seats = Hash.new
 		alerts_sent = []
 
+		agent = login
+
 		depts.each do |dept|
-			all_seats[dept] = fetch_dept_info(dept)
+			all_seats[dept] = fetch_dept_info(dept, agent)
 		end
 
 		Alert.all.each do |alert|
@@ -31,7 +33,7 @@ class Alert < ActiveRecord::Base
 		open_seats.each do |alert , seats|
 			AlertMailer.alert_email(alert).deliver_now
 			alerts_sent << alert
-			# alert.destroy
+			# alert.destroy (done in rake task now)
 		end
 
 		alerts_sent
@@ -40,17 +42,12 @@ class Alert < ActiveRecord::Base
 
 private 
 
-
-#need to refactor this so that it only logs in once per check, not once for every department
-#should seperate into 2 methods, one to log in and then another to fetch after that, 
-#call log in method first in self.check_seats before the depts.each loop 
-	def self.fetch_dept_info(dept)
+#logs in using mechanize agent, returns agent to keep browsing session data
+	def self.login
 		id = ENV["ID"]
 		pw = ENV["PW"]
 		term = " Spring 2016"
-		# This uses "Classic version" of web reg, 
-		# should also try to implement on new version
-		base_link = "https://camel2.usc.edu/webreg/crsesoffrd.asp?DEPT="
+
 		agent = Mechanize.new
 		page = agent.get('https://camel2.usc.edu/webreg/')
 		form = page.form('LoginForm')
@@ -58,8 +55,16 @@ private
 		form['Login::PIN'] = pw
 		page = agent.submit(form)
 		page = agent.page.link_with(:text => term).click
-		page = agent.get(base_link + dept)
 
+		return agent
+	end
+
+#takes agent that's already logged in and department code
+#returns section numbers and seats available
+#returns "Closed" in seat number if class is full 
+	def self.fetch_dept_info(dept , agent)
+		base_link = "https://camel2.usc.edu/webreg/crsesoffrd.asp?DEPT="
+		page = agent.get(base_link + dept)
 
 		section_numbers = agent.page.search(".sectiondata").map(&:text).map(&:strip)
 		section_seats = agent.page.search(".seatsdata").map(&:text).map(&:strip)
@@ -67,7 +72,6 @@ private
 		sections = Hash.new
 		section_numbers.zip(section_seats).each do |number,seats|
 			sections[number] = seats
-			## puts number + " " + sections[number]
 		end
 
 		return sections
