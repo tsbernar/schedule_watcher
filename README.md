@@ -10,7 +10,7 @@ Users can enter course numbers for classes that are full,
 and they will get an email when there is an opening in the course. 
 
 Usage
-_____
+=====
 
 - Create an account with desired email address
 - Click "New Alert" and enter dpartment and course number info
