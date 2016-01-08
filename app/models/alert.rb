@@ -14,6 +14,7 @@ class Alert < ActiveRecord::Base
 		depts = get_departments
 		all_seats = Hash.new
 		open_seats = Hash.new
+		alerts_sent = []
 
 		depts.each do |dept|
 			all_seats[dept] = fetch_dept_info(dept)
@@ -27,10 +28,11 @@ class Alert < ActiveRecord::Base
 		end
 		open_seats.each do |alert , seats|
 			AlertMailer.alert_email(alert).deliver_now
+			alerts_sent << alert
 			# alert.destroy
 		end
 
-		open_seats
+		alerts_sent
 	end
 
 
