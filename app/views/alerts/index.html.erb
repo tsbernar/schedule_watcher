@@ -2,35 +2,36 @@
 <%= render 'pages/home' %>
 <% else %>
 
-  <h1>Alerts</h1>
+  <div class="jumbotron">
 
-  <table>
-    <thead>
-      <tr>
-        <th> Department </th>
-        <th> Course number </th>
-        <th> User </th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
+    <h1>Alerts</h1>
 
-    <tbody>
-      <% @alerts.each do |alert| %>
+    <table class="table table-small">
+      <thead>
         <tr>
-          <td><%= alert.department %></td>
-          <td><%= alert.course_number %></td>
-          <td><%= alert.user.try(:email) %></td>
-          <% if alert.user = current_user %>
-            <td><%= link_to 'Show', alert %></td>
-            <td><%= link_to 'Edit', edit_alert_path(alert) %></td>
-            <td><%= link_to 'Delete', alert, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <% end %>
+          <th> Department </th>
+          <th> Course number </th>
+          <th> User </th>
+          <th colspan="2"></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
 
-  <br>
-
-  <%= link_to 'New Alert', new_alert_path, class: "btn btn-primary" %>
+      <tbody>
+        <% @alerts.each do |alert| %>
+          <tr>
+            <td><%= alert.department %></td>
+            <td><%= alert.course_number %></td>
+            <td><%= alert.user.try(:email) %></td>
+            <% if alert.user = current_user %>
+              <td><%= link_to 'Edit', edit_alert_path(alert) %></td>
+              <td><%= link_to 'Delete', alert, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <br>
+    <%= link_to 'New Alert', new_alert_path, class: "btn btn-primary" %>
+  </div>
+  
 <% end %>

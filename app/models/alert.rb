@@ -1,6 +1,7 @@
 class Alert < ActiveRecord::Base
 	belongs_to :user
 
+# returns list of departments to check from alerts
 	def self.get_departments
 		depts = []
 		Alert.all.each do |alert|
@@ -9,7 +10,8 @@ class Alert < ActiveRecord::Base
 		return depts
 	end
 
-# returns hash of alerts and number of seats open (as a string)
+# Sends emails to users of alerts that have open seats
+# Returns array of alerts that have been sent (to be deleted)
 	def self.check_seats
 		depts = get_departments
 		all_seats = Hash.new

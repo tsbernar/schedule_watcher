@@ -10,10 +10,6 @@ class AlertsController < ApplicationController
     @alerts = Alert.all
   end
 
-  # GET /alerts/1
-  def show
-  end
-
   # GET /alerts/new
   def new
     @alert = current_user.alerts.build
@@ -25,8 +21,8 @@ class AlertsController < ApplicationController
 
   # POST /alerts
   def create
+    #use current_user build to create user alert relationship 
     @alert = current_user.alerts.build(alert_params)
-
     if @alert.save
       redirect_to alerts_path, notice: 'Alert was successfully created.'
     else
@@ -37,7 +33,7 @@ class AlertsController < ApplicationController
   # PATCH/PUT /alerts/1
   def update
       if @alert.update(alert_params)
-        redirect_to @alert, notice: 'Alert was successfully updated.'
+        redirect_to alerts_path, notice: 'Alert was successfully updated.'
       else
         render :edit
       end

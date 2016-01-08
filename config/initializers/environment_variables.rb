@@ -1,3 +1,6 @@
+#loads local environmen tvariables from config/local_env.yml for development
+#Not used in production 
+
 module EnvironmentVariablesExample
   class Application < Rails::Application
     config.before_configuration do
