@@ -1,5 +1,5 @@
 class AlertMailer < ApplicationMailer
-	default from: 'trevor.s.bernard@gmail.com'
+	default from: 'usc.schedule.watcher@gmail.com'
 
 	def alert_email(alert)
 		@alert = alert
