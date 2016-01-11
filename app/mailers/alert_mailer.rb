@@ -4,6 +4,6 @@ class AlertMailer < ApplicationMailer
 	def alert_email(alert)
 		@alert = alert
 		@user = @alert.user
-		mail(to: @user.email, subject: "Open seats in your course!")
+		mail(to: @user.email, subject: "Open seats in your course")
 	end
 end
