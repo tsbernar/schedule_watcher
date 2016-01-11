@@ -11,6 +11,7 @@ namespace :alerts do
 			@sent_list = SentList.new
 			@sent_list.department = alert.department
 			@sent_list.course_number = alert.course_number
+			@sent_list.email = alert.user.email
 			@sent_list.save
 			alert.destroy
 		end

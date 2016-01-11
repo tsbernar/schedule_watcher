@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160111022004) do
+ActiveRecord::Schema.define(version: 20160111182745) do
 
   create_table "alerts", force: :cascade do |t|
     t.string   "department"
@@ -28,7 +28,10 @@ ActiveRecord::Schema.define(version: 20160111022004) do
     t.string   "course_number"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "email"
   end
+
+  add_index "sent_lists", ["email"], name: "index_sent_lists_on_email"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
