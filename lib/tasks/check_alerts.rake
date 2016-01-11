@@ -5,7 +5,16 @@ namespace :alerts do
 	desc "Checks courses for open seats, check_seats defined in Alert model"
 	task :check_alerts => :environment do
 		alerts_sent = Alert.check_seats
-		alerts_sent.each { |alert| alert.destroy}
+
+		#remove alert (visable to user, and add to sent list record)
+		alerts_sent.each do |alert| 
+			@sent_list = SentList.new
+			@sent_list.department = alert.department
+			@sent_list.course_number = alert.course_number
+			@sent_list.save
+			alert.destroy
+		end
+		
 	end
 
 end
