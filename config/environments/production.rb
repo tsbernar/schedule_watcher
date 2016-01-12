@@ -92,6 +92,6 @@ Rails.application.configure do
   enable_starttls_auto: true  }
 
 
-  config.log_level = debug.to_sym
+  config.log_level = :debug
 
 end
