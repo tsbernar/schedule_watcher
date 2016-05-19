@@ -28,12 +28,15 @@ class Alert < ActiveRecord::Base
 		Alert.all.each do |alert|
 			department_seats = all_seats[alert.department]
 
-			if department_seats[alert.course_number]
+			if department_seats[alert.course_number] #if the course number exists
+
+				#parses the department_seats string from 'x of y' to x and y 
 				registered = department_seats[alert.course_number].split[0]
 				seats = department_seats[alert.course_number].split[2]
-				if (registered != seats)
+				if (registered < seats)
 					open_seats[alert] = department_seats[alert.course_number] 
 				end
+				
 			end
 
 		end
@@ -62,6 +65,14 @@ private
 		#removes the table headers 
 		section_numbers.delete_if do |section|
 			if section == "Section"
+				true
+			else
+				false
+			end
+		end
+
+		registered.delete_if do |registered|
+			if registered == "Registered"
 				true
 			else
 				false
