@@ -5,7 +5,8 @@
   </head>
 
   <body>
-    <h1>Course, <%= @alert.department + " " + @alert.course_number + " " %> has open seats </h1>
+    <h1><%= @alert.department + " " + @alert.course_number + " " %> has open seats. 
+    	This alert has been deleted from your account.  To add it again or to add another alert go to <a href="https://schedule-watcher.herokuapp.com/">https://schedule-watcher.herokuapp.com/</a></h1>
   </body>
 
 </html>

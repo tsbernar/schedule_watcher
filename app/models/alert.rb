@@ -17,16 +17,17 @@ class Alert < ActiveRecord::Base
 		all_seats = Hash.new
 		open_seats = Hash.new
 		alerts_sent = []
+		term = "term-20163"
 
-		agent = login
+		agent = Mechanize.new
 
 		depts.each do |dept|
-			all_seats[dept] = fetch_dept_info(dept, agent)
+			all_seats[dept] = fetch_dept_info(dept, agent, term)
 		end
 
 		Alert.all.each do |alert|
 			department_seats = all_seats[alert.department]
-			if (department_seats[alert.course_number] != "Closed" && department_seats[alert.course_number] != nil)
+			if (department_seats[alert.course_number] != "Registered" && department_seats[alert.course_number] != nil)
 				open_seats[alert] = department_seats[alert.course_number] 
 			end
 		end
@@ -42,36 +43,28 @@ class Alert < ActiveRecord::Base
 
 private 
 
-#logs in using mechanize agent, returns agent to keep browsing session data
-	def self.login
-		id = ENV["ID"]
-		pw = ENV["PW"]
-		term = " Spring 2016"
-
-		agent = Mechanize.new
-		page = agent.get('https://camel2.usc.edu/webreg/')
-		form = page.form('LoginForm')
-		form['Login::SSN'] = id
-		form['Login::PIN'] = pw
-		page = agent.submit(form)
-		page = agent.page.link_with(:text => term).click
-
-		return agent
-	end
-
 #takes agent that's already logged in and department code
 #returns section numbers and seats available
 #returns "Closed" in seat number if class is full 
-	def self.fetch_dept_info(dept , agent)
-		base_link = "https://camel2.usc.edu/webreg/crsesoffrd.asp?DEPT="
-		page = agent.get(base_link + dept)
+	def self.fetch_dept_info(dept , agent, term)
+		base_link = "http://classes.usc.edu/"
+		page = agent.get(base_link + term + '/classes/' + dept)
 
-		section_numbers = agent.page.search(".sectiondata").map(&:text).map(&:strip)
-		section_seats = agent.page.search(".seatsdata").map(&:text).map(&:strip)
+		section_numbers = agent.page.search(".section").map(&:text).map(&:strip)
+		registered = agent.page.search(".registered").map(&:text).map(&:strip)
+
+		#removes the table headers 
+		section_numbers.delete_if do |section|
+			if section == "Section"
+				true
+			else
+				false
+			end
+		end
 
 		sections = Hash.new
-		section_numbers.zip(section_seats).each do |number,seats|
-			sections[number] = seats
+		section_numbers.zip(registered).each do |number,registered|
+			sections[number] = registered
 		end
 
 		return sections
