@@ -27,9 +27,15 @@ class Alert < ActiveRecord::Base
 
 		Alert.all.each do |alert|
 			department_seats = all_seats[alert.department]
-			if (department_seats[alert.course_number] != "Registered" && department_seats[alert.course_number] != nil)
-				open_seats[alert] = department_seats[alert.course_number] 
+
+			if department_seats[alert.course_number]
+				registered = department_seats[alert.course_number].split[0]
+				seats = department_seats[alert.course_number].split[2]
+				if (registered != seats)
+					open_seats[alert] = department_seats[alert.course_number] 
+				end
 			end
+
 		end
 		open_seats.each do |alert , seats|
 			AlertMailer.alert_email(alert).deliver_now
