@@ -3,9 +3,11 @@
 by Trevor Bernard
 trevor.s.bernard@gmail.com
 
-Simple app to check USC class registration for openings.
-Users can enter course numbers for classes that are full, 
-and they will get an email when there is an opening in the course. 
+Web app to check USC class registration for openings.
+Users can create an account and enter course numbers for classes that are full, 
+and they will get an email when there is an opening in the course.
+
+hosted at: https://schedule-watcher.herokuapp.com
 
 Usage
 =====
