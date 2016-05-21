@@ -1,8 +1,5 @@
 class AlertsController < ApplicationController
   before_action :set_alert, only: [:show, :edit, :update, :destroy]
-  #take out this index for autheticate 
-  #so you cant see lsit of alerts unless you're logged in 
-  before_action :authenticate_user!, except: [:index]
   before_action :correct_user, only: [:show, :edit, :update, :destroy]
   
   # GET /alerts
