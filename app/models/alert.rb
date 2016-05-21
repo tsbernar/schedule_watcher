@@ -41,7 +41,6 @@ class Alert < ActiveRecord::Base
 				registered = department_seats[alert.course_number].split[0].to_i
 				seats = department_seats[alert.course_number].split[2].to_i
 
-				puts "#{registered.class} #{seats.class} #{registered < seats}"
 				if (registered < seats)
 					open_seats[alert] = department_seats[alert.course_number] 
 					puts "OpenSeats in #{alert.department} #{alert.course_number} for #{alert.user.email}"
