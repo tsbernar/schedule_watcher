@@ -27,7 +27,8 @@
       </tbody>
     </table>
     <br>
-    <%= link_to 'New Alert', new_alert_path, class: "btn btn-primary" %>
+    <%= link_to 'New Alert', new_alert_path, class: "btn btn-primary", 
+    data: { no_turbolink: true } %>
   </div>
   
 <% end %>

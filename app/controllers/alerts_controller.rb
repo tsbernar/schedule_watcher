@@ -11,6 +11,8 @@ class AlertsController < ApplicationController
   # GET /alerts/new
   def new
     @alert = current_user.alerts.build
+    # Client token generated for braintree payment form 
+    @client_token = Braintree::ClientToken.generate
   end
 
   # GET /alerts/1/edit
@@ -20,12 +22,24 @@ class AlertsController < ApplicationController
   # POST /alerts
   def create
     # use current_user build to create user alert relationship
-    @alert = current_user.alerts.build(alert_params)
-    if @alert.save
+    nonce = payment_method_nonce_params
+    # maybe remove action: below 
+    render :new and return unless nonce
+
+    @alert = current_user.alerts.build(alert_params) 
+
+    result = Braintree::Transaction.sale(amount: "2.00", payment_method_nonce: nonce, 
+      custom_fields: {
+      email: current_user.email,
+      department: @alert.department,
+      course_number: @alert.course_number
+    })
+
+    if result.success? and @alert.save
       redirect_to alerts_path, notice: 'Alert was successfully created.'
       AlertMailer.set_alert_email(@alert).deliver_now
     else
-      render :new
+      render :new, notice: "Error with payment, try agian"
     end
   end
 
@@ -60,4 +74,9 @@ private
   def alert_params
     params.require(:alert).permit(:department, :course_number)
   end
+
+  def payment_method_nonce_params
+    params.require(:payment_method_nonce)
+  end
+
 end

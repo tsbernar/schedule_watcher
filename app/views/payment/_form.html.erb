@@ -1,0 +1,41 @@
+<%= form_for @alert, html: {id: 'braintree-form'} do |f| %>
+  <% if @alert.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
+      <ul>
+      <% @alert.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :department %>
+    <%= f.text_field :department, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :course_number %>
+    <%= f.text_field :course_number, class: "form-control" %>
+  </div>
+<!-- Braintree Payment --> 
+  <div id="dropin"></div>
+
+  <div><%= f.submit "submit ($2)", class: "btn btn-primary", id: 'submit' %></div>
+<% end %>
+
+
+<script type="text/javascript">
+  function setupBT() {
+    braintree.setup("<%=@client_token%>", 'dropin', {
+      container: 'dropin'
+    });
+  }
+  if (window.addEventListener)
+    window.addEventListener("load", setupBT, false);
+  else if (window.attachEvent)
+    window.attachEvent("onload", setupBT);
+  else window.onload = setupBT;
+
+</script>

@@ -8,13 +8,16 @@
 			<br><br>Example: 
 			<br>Department: <strong> WRIT </strong>
 			<br>Course number: <strong> 29906D </strong>
+			<br>$2 per alert
 		</p>
 	</div>
 	<div class="panel-body">
-		<%= render 'form' %>
+		<%= render 'payment/form' %>
 	</div>
 
 	<div class="panel-footer">
 		<%= link_to 'Back', alerts_path %>
 	</div>
 </div>
+
+<%= @params %>
