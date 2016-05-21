@@ -21,19 +21,22 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-
-####added gems#######
+#### added gems #######
 
 # for getting data from web register
 gem 'mechanize'
 
-#for authenticaiton
+# for authenticaiton
 gem 'devise' , '~> 3.4.0'
-#need for devise
+# need for devise
 gem 'responders'
 gem 'bootstrap-sass'
-
-
+# For enforcing code style
+gem 'rubocop', '~> 0.40.0', require: false
+# For accepting payments
+gem "braintree"
+# For loading environment variables from .env file
+gem 'dotenv', '~> 2.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -55,14 +58,14 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # Spring speeds up development by keeping your application running in the background. 
+  # Read more: https://github.com/rails/spring
   gem 'spring'
 end
 
 group :production do
   # postgres database for use with heroku
   gem 'pg'
-  #need for heroku
+  # need for heroku
   gem 'rails_12factor'
 end
-
